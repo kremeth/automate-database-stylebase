@@ -3,9 +3,36 @@ import re
 import string
 import sys
 from collections import namedtuple as _namedtuple
+from flask import Flask
 
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
+
+app = Flask(__name__)
+
+@app.route('/<string:name>')
+def get_closest(name):
+    resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
+    content =  resource.read().decode(resource.headers.get_content_charset())
+    comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
+    
+    input_data = ' '.join(name.split('-'))
+    # return input_data
+ 
+    dd = {}
+    for val in brands:
+        dd[val] = token_set_ratio(input_data, val)
+
+    brand = sorted(dd, key=dd.get, reverse=True)[0]
+    brand_stop = brands[brands.index(brand)-1]
+
+    dd = {}
+    for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
+        dd[val] = token_set_ratio(input_data, val)
+
+    return sorted(dd, key=dd.get, reverse=True)[0]
+
+
 
 
 brands = ['Versace',
@@ -315,33 +342,14 @@ def _calculate_ratio(matches, length):
 Match = _namedtuple('Match', 'a b size')
 
 
-
+app.run(port=5000)
 
 # with open(input_file, 'r') as file:
 #     text = file.read()
 
 # comp = text.replace('\'\\\n}', '').replace('{\\rtf1\\ansi\\ansicpg1252\\cocoartf2636\n\\cocoatextscaling0\\cocoaplatform0{\\fonttbl\\f0\\fswiss\\fcharset0 Helvetica;}\n{\\colortbl;\\red255\\green255\\blue255;}\n{\\*\\expandedcolortbl;;}\n\\paperw11900\\paperh16840\\margl1440\\margr1440\\vieww34360\\viewh19280\\viewkind0\n\\pard\\tx566\\tx1133\\tx1700\\tx2267\\tx2834\\tx3401\\tx3968\\tx4535\\tx5102\\tx5669\\tx6236\\tx6803\\pardirnatural\\partightenfactor0\n\n\\f0\\fs24 \\cf0 ', '').split('|||')
 
-resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
-content =  resource.read().decode(resource.headers.get_content_charset())
-comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
 
-input_data = 'Alexander McQueen North South Tote Canvas and Leather'
-
-dd = {}
-for val in brands:
-    dd[val] = token_set_ratio(input_data, val)
-
-brand = sorted(dd, key=dd.get, reverse=True)[0]
-brand_stop = brands[brands.index(brand)-1]
-
-dd = {}
-for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
-    dd[val] = token_set_ratio(input_data, val)
-
-output = sorted(dd, key=dd.get, reverse=True)[0]
-
-print(output)
 
 
 
