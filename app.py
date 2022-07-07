@@ -16,21 +16,23 @@ def get_closest(name):
     content =  resource.read().decode(resource.headers.get_content_charset())
     comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
     
-    input_data = ' '.join(name.split('-'))
-    # return input_data
+    return name
+    
+#     input_data = ' '.join(name.split('-'))
+#     # return input_data
  
-    dd = {}
-    for val in brands:
-        dd[val] = token_set_ratio(input_data, val)
+#     dd = {}
+#     for val in brands:
+#         dd[val] = token_set_ratio(input_data, val)
 
-    brand = sorted(dd, key=dd.get, reverse=True)[0]
-    brand_stop = brands[brands.index(brand)-1]
+#     brand = sorted(dd, key=dd.get, reverse=True)[0]
+#     brand_stop = brands[brands.index(brand)-1]
 
-    dd = {}
-    for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
-        dd[val] = token_set_ratio(input_data, val)
+#     dd = {}
+#     for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
+#         dd[val] = token_set_ratio(input_data, val)
 
-    return sorted(dd, key=dd.get, reverse=True)[0]
+#     return sorted(dd, key=dd.get, reverse=True)[0]
 
 
 
