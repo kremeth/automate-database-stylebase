@@ -35,6 +35,13 @@ def get_closest(name):
 #     return sorted(dd, key=dd.get, reverse=True)[0]
 
 
+@app.route('/')
+def get_home():
+#     resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
+#     content =  resource.read().decode(resource.headers.get_content_charset())
+#     comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
+    
+    return 'waiting'
 
 
 # brands = ['Versace',
