@@ -20,28 +20,28 @@ def favicon():
 def home():
     return "waiting"
 
-# @app.route('/<string:name>')
-# def get_closest(name):
-#     resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
-#     content =  resource.read().decode(resource.headers.get_content_charset())
-#     comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
+@app.route('/<string:name>')
+def get_closest(name):
+    resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
+    content =  resource.read().decode(resource.headers.get_content_charset())
+    comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
     
-#     input_data = ' '.join(name.split('-'))
-#     # return input_data
+    input_data = ' '.join(name.split('-'))
+    # return input_data
  
-#     dd = {}
-#     for val in brands:
-#         dd[val] = token_set_ratio(input_data, val)
+    dd = {}
+    for val in brands:
+        dd[val] = token_set_ratio(input_data, val)
 
-#     brand = sorted(dd, key=dd.get, reverse=True)[0]
-#     brand_stop = brands[brands.index(brand)-1]
+    brand = sorted(dd, key=dd.get, reverse=True)[0]
+    brand_stop = brands[brands.index(brand)-1]
 
-#     dd = {}
-#     for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
-#         dd[val] = token_set_ratio(input_data, val)
+    dd = {}
+    for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
+        dd[val] = token_set_ratio(input_data, val)
 
-#     return sorted(dd, key=dd.get, reverse=True)[0]
-#     return name
+    return sorted(dd, key=dd.get, reverse=True)[0]
+    return name
 
 
 brands = ['Versace',
