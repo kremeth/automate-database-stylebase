@@ -1,1 +1,1 @@
-web: gunicorn automate-database-stylebase.wsgi --log-file -
+web: gunicorn app.app --log-file -
