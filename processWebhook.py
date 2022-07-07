@@ -1,6 +1,12 @@
 import flask
 import os
 from flask import send_from_directory
+import urllib.request
+import re
+import string
+import sys
+from collections import namedtuple as _namedtuple
+from flask import Flask
 
 app = flask.Flask(__name__)
 
@@ -14,8 +20,8 @@ def favicon():
 def home():
     return "waiting"
 
-@app.route('/<string:name>')
-def get_closest(name):
+# @app.route('/<string:name>')
+# def get_closest(name):
 #     resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
 #     content =  resource.read().decode(resource.headers.get_content_charset())
 #     comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
@@ -35,7 +41,7 @@ def get_closest(name):
 #         dd[val] = token_set_ratio(input_data, val)
 
 #     return sorted(dd, key=dd.get, reverse=True)[0]
-    return name
+#     return name
 
 
 brands = ['Versace',
