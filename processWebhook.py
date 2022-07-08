@@ -39,11 +39,12 @@ def get_closest(name):
     dd = {}
     for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
         dd[val] = token_set_ratio(input_data, val)
-
-    return sorted(dd, key=dd.get, reverse=True)[0]
+        
     if input_data == ' ':
         return 'waiting'
-    return name
+        
+    return sorted(dd, key=dd.get, reverse=True)[0]
+
 
 
 brands = ['Versace',
