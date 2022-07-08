@@ -41,7 +41,7 @@ def get_closest(name):
         dd[val] = token_set_ratio(input_data, val)
 
     return sorted(dd, key=dd.get, reverse=True)[0]
-    if input_data == '-':
+    if input_data == ' ':
         return 'waiting'
     return name
 
