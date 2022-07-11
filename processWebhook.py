@@ -12,7 +12,7 @@ import unicodedata
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
-connection = pymysql.connect(host='34.142.176.229', user='matching', password='testtest', db='stylebase')
+connection = pymysql.connect(host='34.142.176.229', user='root', password='HAM1qzn-gyt7pae-agj', db='stylebase')
 cursor = connection.cursor()
 
 app = flask.Flask(__name__)
