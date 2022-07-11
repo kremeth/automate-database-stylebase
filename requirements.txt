@@ -18,5 +18,5 @@ Werkzeug==1.0.1
 wrapt==1.12.1
 psycopg2-binary
 ordereddict
-pymysql
+PyMySQL==1.0.2
 ssl
