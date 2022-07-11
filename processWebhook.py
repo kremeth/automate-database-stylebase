@@ -7,13 +7,15 @@ import string
 import sys
 from collections import namedtuple as _namedtuple
 from flask import Flask
+import pymysql
+import unicodedata
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
+connection = pymysql.connect(host='34.142.176.229', user='root', password='HAM1qzn-gyt7pae-agj', db='stylebase')
+cursor = connection.cursor()
 
 app = flask.Flask(__name__)
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/favicon.png')
 
 @app.route('/')
 @app.route('/home')
@@ -39,12 +41,61 @@ def get_closest(name):
     dd = {}
     for val in (brand + ' ' + comp.split(brand, 1)[1]).split(brand_stop)[0].split('|||'):
         dd[val] = token_set_ratio(input_data, val)
-        
-    if input_data == ' ':
-        return 'waiting'
-        
+
     return sorted(dd, key=dd.get, reverse=True)[0]
 
+@app.route('/<string:name>/item_sku_long')
+def get_sku_long(name):
+    value = get_closest(name).replace('  ', ' ')
+    cursor.execute(f'SELECT item_sku_long FROM stylebase.Items WHERE reference_field = "{str(value)}";')
+    return cursor.fetchall()[0][0]
+
+
+
+@app.route('/<string:name>/brand')
+def get_brand(name):
+    sku_long = get_sku_long(name)
+    brand_code = sku_long.split('.')[1]
+    cursor.execute(f'SELECT brand_name FROM stylebase.Brands WHERE brand_code = "{brand_code}";')
+    return cursor.fetchall()[0][0]
+
+@app.route('/<string:name>/model')
+def get_model(name):
+    sku_long = get_sku_long(name)
+    model_code = sku_long.split('.')[2]
+    cursor.execute(f'SELECT model_name FROM stylebase.Models WHERE model_code = "{model_code}";')
+    return cursor.fetchall()[0][0]
+
+@app.route('/<string:name>/model_image')
+def get_model_img(name):
+    sku_long = get_sku_long(name)
+    model_code = sku_long.split('.')[2]
+    cursor.execute(f'SELECT model_img FROM stylebase.Models WHERE model_code = "{model_code}";')
+    return cursor.fetchall()[0][0]
+
+@app.route('/<string:name>/material')
+def get_material(name):
+    sku_long = get_sku_long(name)
+    material_code = sku_long.split('.')[3]
+    cursor.execute(f'SELECT material FROM stylebase.Materials WHERE material_code = "{material_code}";')
+    return cursor.fetchall()[0][0]
+
+@app.route('/<string:name>/material_image')
+def get_material_img(name):
+    sku_long = get_sku_long(name)
+    material_code = sku_long.split('.')[3]
+    cursor.execute(f'SELECT material_img FROM stylebase.Material_Images WHERE material_code = "{material_code}";')
+    return cursor.fetchall()[0][0]
+
+@app.route('/<string:name>/size')
+def get_size(name):
+    sku_long = get_sku_long(name)
+    size_code = sku_long.split('.')[4]
+    cursor.execute(f'SELECT size_name FROM stylebase.Sizes WHERE size_code = "{size_code}";')
+    try:
+        return cursor.fetchall()[0][0]
+    except IndexError:
+        return ''
 
 
 brands = ['Versace',
