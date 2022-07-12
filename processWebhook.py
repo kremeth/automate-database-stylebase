@@ -1,19 +1,20 @@
 import flask
-import os
-from flask import send_from_directory
 import urllib.request
 import re
 import string
 import sys
 from collections import namedtuple as _namedtuple
-from flask import Flask
 import pymysql
-import unicodedata
 import ssl
+import requests
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 connection = pymysql.connect(host='34.142.176.229', user='root', password='HAM1qzn-gyt7pae-agj', db='stylebase')
 cursor = connection.cursor()
+
+cursor.execute('SELECT reference_field FROM Items;')
+comp = '|||'.join([val[0] for val in cursor.fetchall()])
 
 app = flask.Flask(__name__)
 
@@ -24,9 +25,6 @@ def home():
 
 @app.route('/<string:name>')
 def get_closest(name):
-    resource = urllib.request.urlopen('https://docs.google.com/document/d/e/2PACX-1vSQWXUs-TaSndX5RzkBk1Yyd3OjbFv_YxfNu5GVUNCNSkimZKoD1lXCX0fhrq_EzFphG5gDPIlwbyUA/pub')
-    content =  resource.read().decode(resource.headers.get_content_charset())
-    comp = content.split('&#39;', 1)[1].split('</span>', 1)[0]
     
     input_data = ' '.join(name.split('-'))
     # return input_data
