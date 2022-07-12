@@ -18,6 +18,11 @@ comp = '|||'.join([val[0] for val in cursor.fetchall()])
 
 app = flask.Flask(__name__)
 
+
+# return input_data
+
+
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -44,10 +49,10 @@ def get_closest(name):
 
 @app.route('/<string:name>/item_sku_long')
 def get_sku_long(name):
-    value = get_closest(name).replace('  ', ' ')
+    # value = get_closest(name).replace('  ', ' ')
+    value = get_closest(name)
     cursor.execute(f'SELECT item_sku_long FROM stylebase.Items WHERE reference_field = "{str(value)}";')
     return cursor.fetchall()[0][0]
-
 
 
 @app.route('/<string:name>/brand')
@@ -401,6 +406,7 @@ def _calculate_ratio(matches, length):
     return 1.0
 
 Match = _namedtuple('Match', 'a b size')
+
 
 
 if __name__ == "__main__":
