@@ -94,11 +94,16 @@ def get_material_img(name):
 def get_size(name):
     sku_long = get_sku_long(name)
     size_code = sku_long.split('.')[4]
-    cursor.execute(f'SELECT size_name FROM stylebase.Sizes WHERE size_code = "{size_code}";')
-    try:
-        return cursor.fetchall()[0][0]
-    except IndexError:
-        return ''
+    if size_code == 'N':
+        return 'Not Applicable'
+    elif size_code == 'ON':
+        return 'One Size'
+    else:
+        cursor.execute(f'SELECT size_name FROM stylebase.Sizes WHERE size_code = "{size_code}";')
+        try:
+            return cursor.fetchall()[0][0]
+        except IndexError:
+            return ''
 
 
 brands = ['Versace',
