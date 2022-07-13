@@ -95,8 +95,12 @@ def get_price(name):
     sku_long = get_sku_long(name)
     cursor.execute(f"SELECT MIN(price_sgd) FROM stylebase.Listings WHERE listing_status = 'LIVE' AND item_sku_long = '{sku_long}';")
     try:
-        return str(cursor.fetchall()[0][0])
+        result = str(cursor.fetchall()[0][0]) 
     except:
+        result = None
+    if result:
+        return result
+    else:
         return 'Not in Stock'
 
 @app.route('/<string:name>/size')
