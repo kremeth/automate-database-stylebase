@@ -96,12 +96,13 @@ def get_price(name):
     cursor.execute(f"SELECT MIN(price_sgd) FROM stylebase.Listings WHERE listing_status = 'LIVE' AND item_sku_long = '{sku_long}';")
     try:
         result = str(cursor.fetchall()[0][0]) 
+        if result == 'None':
+            return 'Not in Stock'
+        else:
+            return result
     except:
-        result = None
-    if result:
-        return result
-    else:
         return 'Not in Stock'
+
 
 @app.route('/<string:name>/size')
 def get_size(name):
