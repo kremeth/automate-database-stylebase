@@ -90,6 +90,15 @@ def get_material_img(name):
     cursor.execute(f'SELECT material_img FROM stylebase.Material_Images WHERE material_code = "{material_code}";')
     return cursor.fetchall()[0][0]
 
+@app.route('/<string:name>/min_price')
+def get_price(name):
+    sku_long = get_sku_long(name)
+    cursor.execute(f"SELECT MIN(price_sgd) FROM stylebase.Listings WHERE listing_status = 'LIVE' AND item_sku_long = '{sku_long}';")
+    if cursor.fetchall()[0][0]:
+        return str(cursor.fetchall()[0][0])
+    else:
+        return 'Not in Stock'
+
 @app.route('/<string:name>/size')
 def get_size(name):
     sku_long = get_sku_long(name)
